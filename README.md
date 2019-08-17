@@ -22,3 +22,6 @@ Swagger / OpenAPI v3: http://localhost:-1/tc3/product-search-api/1.0.0/openapi.j
 
 Note that if you have configured the `host` to be something other than localhost, the calls through
 swagger-ui will be directed to that host and not localhost!
+=======
+# SolrProductWebEndpoint
+REST wrapper for SOLR - implementation of https://www.topcoder.com/challenges/30098526?tab=details
