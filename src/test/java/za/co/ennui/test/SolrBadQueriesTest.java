@@ -1,7 +1,11 @@
 package za.co.ennui.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -9,6 +13,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.params.MapSolrParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -47,8 +53,8 @@ public class SolrBadQueriesTest {
         new SearchProductsApiServiceImpl(solrClientMock);
     Response response = searchProductsApi.searchProducts(null, securityContext);
 
-    assertEquals("An HTTP-400 response should be returned for a null body query",
-        NO_KEYWORDS_SPECIFIED, response.getStatus());
+    assertEquals("An HTTP-400 response should be returned for a null body query", 400,
+        response.getStatus());
     assertEquals(REASON_PHRASE_MESSAGE, response.getStatusInfo().getReasonPhrase(),
         NO_KEYWORDS_SPECIFIED);
 
@@ -62,8 +68,8 @@ public class SolrBadQueriesTest {
         new SearchProductsApiServiceImpl(solrClientMock);
     Response response = searchProductsApi.searchProducts(new SearchKeywords(), securityContext);
 
-    assertEquals("An HTTP-400 response should be returned for an empty body query",
-        NO_KEYWORDS_SPECIFIED, response.getStatus());
+    assertEquals("An HTTP-400 response should be returned for an empty body query", 400,
+        response.getStatus());
     assertEquals(REASON_PHRASE_MESSAGE, response.getStatusInfo().getReasonPhrase(),
         NO_KEYWORDS_SPECIFIED);
 
@@ -80,8 +86,8 @@ public class SolrBadQueriesTest {
         new SearchProductsApiServiceImpl(solrClientMock);
     Response response = searchProductsApi.searchProducts(body, securityContext);
 
-    assertEquals("An HTTP-400 response should be returned for a null queries query",
-        NO_KEYWORDS_SPECIFIED, response.getStatus());
+    assertEquals("An HTTP-400 response should be returned for a null queries query", 400,
+        response.getStatus());
     assertEquals(REASON_PHRASE_MESSAGE, response.getStatusInfo().getReasonPhrase(),
         NO_KEYWORDS_SPECIFIED);
 
@@ -98,21 +104,27 @@ public class SolrBadQueriesTest {
         new SearchProductsApiServiceImpl(solrClientMock);
     Response response = searchProductsApi.searchProducts(body, securityContext);
 
-    assertEquals("An HTTP-400 response should be returned for a zero keywords query",
-        NO_KEYWORDS_SPECIFIED, response.getStatus());
+    assertEquals("An HTTP-400 response should be returned for a zero keywords query", 400,
+        response.getStatus());
     assertEquals(REASON_PHRASE_MESSAGE, response.getStatusInfo().getReasonPhrase(),
         NO_KEYWORDS_SPECIFIED);
 
   }
 
   @Test
-  public void testBadSolrSystem() throws NotFoundException, ParseException {
+  public void testBadSolrSystem()
+      throws NotFoundException, ParseException, SolrServerException, IOException {
+
+    when(solrClientMock.query(eq("non_exist"), any(MapSolrParams.class)))
+        .thenThrow(new SolrServerException("Mocked exception"));
 
     SearchProductsApiServiceImpl searchProductsApi =
         new SearchProductsApiServiceImpl(solrClientMock);
     SearchProductsApiService.collection = "non_exist";
 
-    Response response = searchProductsApi.searchProducts(new SearchKeywords(), securityContext);
+    SearchKeywords body = SetupUtils.buildValidSearch();
+
+    Response response = searchProductsApi.searchProducts(body, securityContext);
 
     assertEquals("Should return an HTTP 500 for a non-supported Solr client class",
         response.getStatus(), 500);

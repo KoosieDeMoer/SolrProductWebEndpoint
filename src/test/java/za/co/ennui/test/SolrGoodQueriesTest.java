@@ -87,8 +87,6 @@ public class SolrGoodQueriesTest {
 
     SolrDocumentList solrDocumentList = SetupUtils.buildDocListResponses();
 
-    when(solrClientMock.query(eq("non_exist"), any(MapSolrParams.class)))
-        .thenThrow(new SolrServerException("Mocked exception"));
 
     when(solrClientMock.query(eq(SearchProductsApiService.collection), any(MapSolrParams.class)))
         .thenReturn(solrQueryResponseMock);

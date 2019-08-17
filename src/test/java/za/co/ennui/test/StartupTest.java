@@ -29,10 +29,10 @@ public class StartupTest {
     args[4] = "10000";
     args[5] = "60000";
 
-    // can't leave the jetty server running to leave a timebomb
-    Main.timeBomb(100L);
+    // can't leave the jetty server running so set a booby trap
+    Main.setBoobyTrapped(true);
 
-    exceptionRule.expect(IllegalStateException.class);
+    exit.expectSystemExitWithStatus(0);
 
     Main.main(args);
 
@@ -49,10 +49,10 @@ public class StartupTest {
     args[1] = "http://localhost:8983/solr";
     args[2] = "techproducts";
 
-    // can't leave the jetty server running to leave a timebomb
-    Main.timeBomb(100L);
+    // can't leave the jetty server running so set a booby trap
+    Main.setBoobyTrapped(true);
 
-    exceptionRule.expect(IllegalStateException.class);
+    exit.expectSystemExitWithStatus(0);
 
     Main.main(args);
 

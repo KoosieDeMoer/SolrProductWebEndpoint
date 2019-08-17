@@ -21,9 +21,12 @@ public class Main {
   private static final int MIN_ARGS_PLUS_CLIENT_CLASS = MINIMUM_ARGS + 1;
   private static final int MIN_ARGS_PLUS_CONNECTION_TIMEOUT = MIN_ARGS_PLUS_CLIENT_CLASS + 1;
 
+
   private static final Logger LOG = LoggerFactory.getLogger(Main.class);
   private static int exposedPortNo;
   private static Server server;
+
+  private static boolean boobyTrapped;
 
   /**
    * Starts a Jetty server.
@@ -47,6 +50,9 @@ public class Main {
     server = new Server(exposedPortNo);
     server.setHandler(handlers);
 
+    if (boobyTrapped) {
+      System.exit(0);
+    }
     try {
       server.start();
       server.join();
@@ -59,24 +65,6 @@ public class Main {
     }
   }
 
-  /**
-   * Allows unit testing to spin up and kill servers.
-   * 
-   * @param interval how many ms to wait before the bomb goes off
-   */
-  public static void timeBomb(final long interval) {
-    new Thread() {
-      @Override
-      public void run() {
-        try {
-          Thread.sleep(interval);
-          server.stop();
-        } catch (Exception ex) {
-          LOG.error("Problems stopping server", ex);
-        }
-      }
-    }.start();
-  }
 
   private static void buildSwagger() {
     // This configures Swagger
@@ -105,6 +93,13 @@ public class Main {
 
     return entityBrowserContext;
   }
+
+
+
+  public static void setBoobyTrapped(boolean boobyTrapped) {
+    Main.boobyTrapped = boobyTrapped;
+  }
+
 
   private static void usage(final String... args) {
     if (args.length < MINIMUM_ARGS) {

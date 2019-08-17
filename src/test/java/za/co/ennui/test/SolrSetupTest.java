@@ -48,6 +48,9 @@ public class SolrSetupTest {
   @Test
   public void testCloudSolrClientSetup() throws NotFoundException {
 
+    exceptionRule.expect(RuntimeException.class);
+    exceptionRule.expectMessage("Problems creating instance of SolrClient");
+
     SearchProductsApiService.solrClientClass = "org.apache.solr.client.solrj.impl.CloudSolrClient";
     SearchProductsApiService.solrUrl = "http://localhost:8983/solr";
     SearchProductsApiService.collection = COLLECTION_NAME;
@@ -75,6 +78,9 @@ public class SolrSetupTest {
 
   @Test
   public void testBadSolrUrlSetup() throws NotFoundException {
+
+    exceptionRule.expect(RuntimeException.class);
+    exceptionRule.expectMessage("Problems creating instance of SolrClient");
 
     exceptionRule.expect(RuntimeException.class);
     exceptionRule.expectMessage("Problems creating instance of SolrClient");
