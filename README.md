@@ -5,7 +5,7 @@ REST wrapper for SOLR - implementation of https://www.topcoder.com/challenges/30
 
 + **Test/Code Coverage** - [![codecov.io Code Coverage](https://img.shields.io/codecov/c/gh/KoosieDeMoer/SolrProductWebEndpoint.svg?maxAge=2592000)](https://codecov.io/gh/KoosieDeMoer/SolrProductWebEndpoint/branch/master)
 
-+ ***Security*** - [![Known Vulnerabilities](https://snyk.io/test/github/KoosieDeMoer/SolrProductWebEndpoint/badge.svg)](https://snyk.io/test/github/KoosieDeMoer/SolrProductWebEndpoint) - this is all a problem with com.fasterxml.jackson.core:jackson-databind@2.9.8
++ **Security** - [![Known Vulnerabilities](https://snyk.io/test/github/KoosieDeMoer/SolrProductWebEndpoint/badge.svg)](https://snyk.io/test/github/KoosieDeMoer/SolrProductWebEndpoint) - this is all a problem with com.fasterxml.jackson.core:jackson-databind@2.9.8
 
 
 ## Overview
