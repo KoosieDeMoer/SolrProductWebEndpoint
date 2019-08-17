@@ -17,8 +17,7 @@ mvn clean package jetty:run
 You can then view the swagger listing here:
 
 ```
-Swagger / OpenAPI v2: http://localhost:-1/tc3/product-search-api/1.0.0/swagger.json
-Swagger / OpenAPI v3: http://localhost:-1/tc3/product-search-api/1.0.0/openapi.json
+Swagger / OpenAPI v2: http://localhost:8080/swagger.json
 ```
 
 Note that if you have configured the `host` to be something other than localhost, the calls through
