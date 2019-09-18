@@ -24,7 +24,7 @@
 		<solr-version>8.2.0</solr-version>
 		<jetty-version>9.4.19.v20190610</jetty-version>
 		<jersey2-version>2.27</jersey2-version>
-		<jackson-version>2.10.0.pr1</jackson-version>
+		<jackson-version>2.10.0.pr3</jackson-version>
 		<swagger-version>1.5.22</swagger-version>
 		<swagger-ui.version>3.17.0</swagger-ui.version>
 		<junit-version>4.12</junit-version>
